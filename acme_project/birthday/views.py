@@ -39,11 +39,16 @@ class OnlyAuthorMixin(UserPassesTestMixin):
         object = self.get_object()
         return object.author == self.request.user
 
-class BirthdayListView(ListView, OnlyAuthorMixin):
+class BirthdayListView(ListView):
     model = Birthday
+    # По умолчанию этот класс 
+    # выполняет запрос queryset = Birthday.objects.all(),
+    # но мы его переопределим:
+    queryset = Birthday.objects.prefetch_related(
+        'tags'
+    ).select_related('author')
     ordering = 'id'
     paginate_by = 10
-
 
 class BirthdayCreateView(CreateView, LoginRequiredMixin, OnlyAuthorMixin):
     model = Birthday

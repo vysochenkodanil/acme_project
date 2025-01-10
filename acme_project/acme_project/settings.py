@@ -1,4 +1,6 @@
 from pathlib import Path
+import os
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -19,6 +21,7 @@ INSTALLED_APPS = [
     'pages.apps.PagesConfig',
     'django_bootstrap5',
     'core.apps.CoreConfig',
+    'debug_toolbar',  
 ]
 
 MIDDLEWARE = [
@@ -29,6 +32,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'acme_project.urls'
@@ -101,3 +105,9 @@ LOGIN_REDIRECT_URL = 'pages:homepage'
 LOGIN_URL = 'login' 
 
 CSRF_FAILURE_VIEW = 'core.views.csrf_failure' 
+
+# Добавьте в settings.py эту константу, чтобы DjDT знал, 
+#  запросы с каких IP он должен обрабатывать. 
+INTERNAL_IPS = [ '127.0.0.1', ]
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
